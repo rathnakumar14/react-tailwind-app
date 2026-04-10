@@ -1,20 +1,22 @@
 import { createContext, useContext, useState } from "react";
 
-const NotificationContext = createContext();
+// ✅ EXPORT CONTEXT (IMPORTANT FIX)
+export const NotificationContext = createContext();
 
+// ✅ PROVIDER
 export const NotificationProvider = ({ children }) => {
   const [toasts, setToasts] = useState([]);
 
   // 🔥 SHOW TOAST
   const showToast = (message, type = "info") => {
-    const id = Date.now() + Math.random(); // ✅ better unique id
+    const id = Date.now() + Math.random();
 
     const newToast = { id, message, type };
 
-    // ✅ Limit max 5 toasts (production safety)
+    // Limit max 5 toasts
     setToasts((prev) => [...prev.slice(-4), newToast]);
 
-    // ⏳ Auto remove
+    // Auto remove after 3 sec
     setTimeout(() => {
       removeToast(id);
     }, 3000);
@@ -34,7 +36,7 @@ export const NotificationProvider = ({ children }) => {
         {toasts.map((toast) => (
           <div
             key={toast.id}
-            className={`px-4 py-3 rounded shadow-lg text-white flex justify-between items-center gap-3 min-w-[250px];
+            className={`px-4 py-3 rounded shadow-lg text-white flex justify-between items-center gap-3 min-w-62.5
               ${
                 toast.type === "success"
                   ? "bg-green-500"
@@ -60,7 +62,7 @@ export const NotificationProvider = ({ children }) => {
   );
 };
 
-// ✅ SAFE HOOK
+// ✅ CUSTOM HOOK
 export const useNotification = () => {
   const context = useContext(NotificationContext);
 
