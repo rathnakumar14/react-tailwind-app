@@ -95,7 +95,7 @@ const Cards = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       fetchCards();
-    }, 20000); // 🔥 improved (20 sec)
+    }, 2000); // 🔥 improved (20 sec)
 
     return () => clearInterval(interval);
   }, [fetchCards]);
